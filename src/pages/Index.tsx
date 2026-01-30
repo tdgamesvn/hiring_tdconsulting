@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
+import { PanelLeftOpen, PanelLeftClose, PanelRightOpen, PanelRightClose } from "lucide-react";
 import ApplicationForm from "@/components/ApplicationForm";
 import SuccessModal from "@/components/SuccessModal";
 import Footer from "@/components/Footer";
@@ -12,6 +13,10 @@ const Index = () => {
   const [showSuccess, setShowSuccess] = useState(false);
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
 
+  // Sidebar states
+  const [isLeftSidebarOpen, setIsLeftSidebarOpen] = useState(true);
+  const [isRightSidebarOpen, setIsRightSidebarOpen] = useState(false);
+
   const handleSuccess = () => {
     setShowSuccess(true);
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -22,6 +27,16 @@ const Index = () => {
     window.location.reload();
   };
 
+  // Auto-show right sidebar when job is selected
+  useEffect(() => {
+    if (selectedJob) {
+      setIsRightSidebarOpen(true);
+    } else {
+      setIsRightSidebarOpen(false);
+    }
+  }, [selectedJob]);
+
+  // Handle job selection
   const handleJobSelect = (job: Job | null) => {
     setSelectedJob(job);
   };
@@ -65,53 +80,81 @@ const Index = () => {
           </p>
         </header>
 
-        {/* Main Content - Form Absolutely Centered, Company Info on Left, JD Panel on Right */}
-        <main className="relative z-10 px-3 sm:px-4 md:px-6 lg:px-8 xl:px-12 pb-12 sm:pb-16">
-          {/* Company Info Panel - Absolute positioned on left (Desktop only) */}
+        {/* Main Content - Flex Layout */}
+        <main className="relative z-10 px-4 sm:px-6 md:px-8 pb-12 sm:pb-16 flex flex-col xl:flex-row justify-center items-start gap-6 transition-all duration-300">
+
+          {/* Left Sidebar - Company Info */}
           <div
-            className="hidden 2xl:block absolute top-0 left-0"
-            style={{
-              right: 'calc(50% + 380px)',
-              paddingLeft: '24px'
-            }}
+            className={`
+              hidden xl:block transition-all duration-500 ease-in-out relative
+              ${isLeftSidebarOpen ? 'w-[320px] opacity-100 translate-x-0' : 'w-0 opacity-0 -translate-x-10 overflow-hidden'}
+            `}
           >
-            <div className="sticky top-24">
-              <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-5 border border-primary/15 shadow-lg shadow-primary/5 max-w-[300px] ml-auto">
+            <div className="sticky top-24 pr-2">
+              <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-5 border border-primary/15 shadow-lg shadow-primary/5">
                 <CompanyInfoPanel />
               </div>
             </div>
           </div>
 
-          {/* Form Container - Responsive centered */}
-          <div className="w-full max-w-[95%] sm:max-w-[90%] md:max-w-[720px] lg:max-w-[760px] mx-auto">
+          {/* Center - Application Form */}
+          <div className="w-full max-w-[800px] shrink-0 transition-all duration-300 relative">
+
+            {/* Toggle Buttons - Desktop Only */}
+            <div className="hidden xl:flex absolute top-6 -left-12 z-20">
+              <button
+                onClick={() => setIsLeftSidebarOpen(!isLeftSidebarOpen)}
+                className={`
+                   p-2 rounded-full bg-white border border-primary/20 shadow-md text-primary hover:bg-primary hover:text-white transition-all duration-300
+                   ${!isLeftSidebarOpen ? 'ml-8' : ''}
+                 `}
+                title={isLeftSidebarOpen ? "Hide Company Info" : "Show Company Info"}
+              >
+                {isLeftSidebarOpen ? <PanelLeftClose size={20} /> : <PanelLeftOpen size={20} />}
+              </button>
+            </div>
+
+            <div className="hidden xl:flex absolute top-6 -right-12 z-20">
+              <button
+                onClick={() => setIsRightSidebarOpen(!isRightSidebarOpen)}
+                className={`
+                   p-2 rounded-full bg-white border border-primary/20 shadow-md text-primary hover:bg-primary hover:text-white transition-all duration-300
+                   ${!isRightSidebarOpen ? 'mr-8' : ''}
+                 `}
+                title={isRightSidebarOpen ? "Hide Job Description" : "Show Job Description"}
+              >
+                {isRightSidebarOpen ? <PanelRightClose size={20} /> : <PanelRightOpen size={20} />}
+              </button>
+            </div>
+
             <div className="bg-white/95 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 lg:p-10 border border-primary/15 shadow-xl shadow-primary/5">
               <ApplicationForm onSuccess={handleSuccess} onJobSelect={handleJobSelect} />
             </div>
-          </div>
 
-          {/* Job Description Panel - Absolute positioned on right (Desktop only) */}
-          <div
-            className="hidden 2xl:block absolute top-0 right-0"
-            style={{
-              left: 'calc(50% + 380px)',
-              paddingRight: '24px'
-            }}
-          >
-            <div className="sticky top-24">
+            {/* Mobile View - Company Info (Below Form) */}
+            <div className="xl:hidden mt-8">
+              <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-6 border border-primary/15 shadow-lg shadow-primary/5">
+                <CompanyInfoPanel />
+              </div>
+            </div>
+
+            {/* Mobile View - Job Description (Below Form) */}
+            <div className="xl:hidden mt-6">
               <JobDescriptionPanel job={selectedJob} />
             </div>
+
           </div>
 
-          {/* Mobile/Tablet View - Company Info Panel */}
-          <div className="2xl:hidden mt-4 sm:mt-6 w-full max-w-[95%] sm:max-w-[90%] md:max-w-[720px] lg:max-w-[760px] mx-auto">
-            <div className="bg-white/95 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-primary/15 shadow-lg shadow-primary/5">
-              <CompanyInfoPanel />
+          {/* Right Sidebar - Job Description */}
+          <div
+            className={`
+               hidden xl:block transition-all duration-500 ease-in-out relative
+               ${isRightSidebarOpen ? 'w-[760px] opacity-100 translate-x-0' : 'w-0 opacity-0 translate-x-10 overflow-hidden'}
+             `}
+          >
+            <div className="sticky top-24 pl-2 min-w-[700px]">
+              <JobDescriptionPanel job={selectedJob} />
             </div>
-          </div>
-
-          {/* Job Description Panel - Below form on mobile/tablet */}
-          <div className="2xl:hidden mt-4 sm:mt-6 w-full max-w-[95%] sm:max-w-[90%] md:max-w-[720px] lg:max-w-[760px] mx-auto">
-            <JobDescriptionPanel job={selectedJob} />
           </div>
         </main>
 
