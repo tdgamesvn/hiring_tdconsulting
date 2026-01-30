@@ -9,7 +9,7 @@ interface JobDescriptionPanelProps {
 export default function JobDescriptionPanel({ job }: JobDescriptionPanelProps) {
     if (!job) {
         return (
-            <div className="bg-card/85 backdrop-blur-sm rounded-2xl p-6 sm:p-8 border border-primary/10 h-full flex flex-col items-center justify-center text-center min-h-[300px]">
+            <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-6 sm:p-8 border border-primary/15 shadow-lg shadow-primary/5 h-full flex flex-col items-center justify-center text-center min-h-[300px]">
                 <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
                     <Briefcase className="w-8 h-8 text-primary" />
                 </div>
@@ -24,7 +24,7 @@ export default function JobDescriptionPanel({ job }: JobDescriptionPanelProps) {
     }
 
     return (
-        <div className="bg-card/85 backdrop-blur-sm rounded-2xl p-6 sm:p-8 border border-primary/10 h-auto animate-fade-in-up">
+        <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-6 sm:p-8 border border-primary/15 shadow-lg shadow-primary/5 h-auto animate-fade-in-up">
             <div className="flex items-center gap-3 mb-6">
                 <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
                     <FileText className="w-5 h-5 text-primary" />

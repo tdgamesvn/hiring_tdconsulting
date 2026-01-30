@@ -2,9 +2,9 @@ import { useCompanyInfo } from "@/hooks/useCompanyInfo";
 import { MapPin, Phone, Mail, Globe } from "lucide-react";
 
 // Social media icons as SVG components
-const BehanceIcon = () => (
+const ThreadsIcon = () => (
     <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
-        <path d="M22 7h-7v-2h7v2zm1.726 10c-.442 1.297-2.029 3-5.101 3-3.074 0-5.564-1.729-5.564-5.675 0-3.91 2.325-5.92 5.466-5.92 3.082 0 4.964 1.782 5.375 4.426.078.506.109 1.188.095 2.14h-8.027c.13 3.211 3.483 3.312 4.588 2.029h3.168zm-7.686-4h4.965c-.105-1.547-1.136-2.219-2.477-2.219-1.466 0-2.277.768-2.488 2.219zm-9.574 6.988h-6.466v-14.967h6.953c5.476.081 5.58 5.444 2.72 6.906 3.461 1.26 3.577 8.061-3.207 8.061zm-3.466-8.988h3.584c2.508 0 2.906-3-.312-3h-3.272v3zm3.391 3h-3.391v3.016h3.341c3.055 0 2.868-3.016.05-3.016z" />
+        <path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.5 12.068V12c.007-3.507.865-6.358 2.503-8.4C5.834 1.548 8.603.346 12.162.32h.046c2.621.016 4.91.682 6.807 1.98a11.481 11.481 0 0 1 3.167 3.18l-2.032 1.4a8.919 8.919 0 0 0-2.466-2.5c-1.47-.998-3.253-1.508-5.3-1.52h-.034c-2.652.019-4.734.911-6.19 2.646-1.485 1.77-2.247 4.273-2.269 7.443v.037c.023 3.196.799 5.707 2.31 7.477 1.496 1.754 3.592 2.651 6.234 2.67h.007c2.138-.019 3.918-.572 5.293-1.65 1.285-1.006 2.012-2.349 2.16-3.992l-.003-.02c-.108-.735-.394-1.285-.849-1.633-.468-.359-1.123-.552-1.95-.573-.64 0-1.23.15-1.752.447-.52.296-.93.703-1.22 1.207-.14.247-.247.51-.318.786l-.027.12h-2.48l.035-.22c.128-.798.395-1.53.795-2.175a5.5 5.5 0 0 1 1.68-1.644c.677-.435 1.44-.762 2.269-.972a9.61 9.61 0 0 1 2.514-.316c1.408.007 2.672.307 3.758.894 1.093.591 1.981 1.473 2.637 2.62.658 1.152.993 2.508 1.008 4.03v.039c-.007 1.527-.341 2.89-.993 4.05-.647 1.153-1.531 2.041-2.624 2.638-1.088.593-2.358.898-3.778.907h-.077a8.2 8.2 0 0 1-2.462-.361 6.4 6.4 0 0 1-2.076-1.07c-.25.309-.527.593-.83.85a6.3 6.3 0 0 1-2.255 1.234A9.078 9.078 0 0 1 12.186 24z" />
     </svg>
 );
 
@@ -14,9 +14,9 @@ const FacebookIcon = () => (
     </svg>
 );
 
-const ArtStationIcon = () => (
+const TikTokIcon = () => (
     <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
-        <path d="M0 17.723l2.027 3.505h.001a2.424 2.424 0 0 0 2.164 1.333h13.457l-2.792-4.838H0zm24-3.251a2.38 2.38 0 0 0-.357-1.273l-8.1-14.051a2.424 2.424 0 0 0-2.164-1.333H8.989l6.982 12.1 2.027 3.505L21.02 18.6l3.168-5.484a2.381 2.381 0 0 0 .357-1.273v-.001zM7.633 16.836l4.821-8.347L8.66 2.493 1.024 15.565a2.46 2.46 0 0 0 .387 2.981l6.222-1.71z" />
+        <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z" />
     </svg>
 );
 
@@ -41,7 +41,7 @@ const SocialLink = ({ href, icon, label, color }: SocialLinkProps) => {
             href={href}
             target="_blank"
             rel="noopener noreferrer"
-            className={`flex items-center gap-3 p-3 rounded-xl bg-card/30 border border-primary/10 hover:border-primary/30 hover:bg-card/50 transition-all duration-300 group`}
+            className={`flex items-center gap-3 p-3 rounded-xl bg-white/80 border border-primary/15 hover:border-primary/40 hover:bg-primary/5 hover:shadow-md transition-all duration-300 group cursor-pointer`}
             title={label}
         >
             <div className={`p-2 rounded-lg ${color} text-white group-hover:scale-110 transition-transform`}>
@@ -154,16 +154,10 @@ export default function CompanyInfoPanel() {
 
                 <div className="grid grid-cols-1 gap-2">
                     <SocialLink
-                        href={companyInfo.behance}
-                        icon={<BehanceIcon />}
-                        label="Behance"
-                        color="bg-[#1769ff]"
-                    />
-                    <SocialLink
-                        href={companyInfo.artstation}
-                        icon={<ArtStationIcon />}
-                        label="ArtStation"
-                        color="bg-[#13aff0]"
+                        href={companyInfo.linkedin}
+                        icon={<LinkedInIcon />}
+                        label="LinkedIn"
+                        color="bg-[#0a66c2]"
                     />
                     <SocialLink
                         href={companyInfo.facebook}
@@ -172,10 +166,16 @@ export default function CompanyInfoPanel() {
                         color="bg-[#1877f2]"
                     />
                     <SocialLink
-                        href={companyInfo.linkedin}
-                        icon={<LinkedInIcon />}
-                        label="LinkedIn"
-                        color="bg-[#0a66c2]"
+                        href={companyInfo.threads}
+                        icon={<ThreadsIcon />}
+                        label="Threads"
+                        color="bg-[#000000]"
+                    />
+                    <SocialLink
+                        href={companyInfo.tiktok}
+                        icon={<TikTokIcon />}
+                        label="TikTok"
+                        color="bg-[#010101]"
                     />
                 </div>
             </div>

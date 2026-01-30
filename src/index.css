@@ -9,25 +9,25 @@
 
 @layer base {
   :root {
-    --background: 0 0% 6%;
-    --foreground: 0 0% 95%;
+    --background: 0 0% 100%;
+    --foreground: 340 25% 15%;
 
-    --card: 0 0% 10%;
-    --card-foreground: 0 0% 95%;
+    --card: 340 20% 98%;
+    --card-foreground: 340 25% 15%;
 
-    --popover: 0 0% 10%;
-    --popover-foreground: 0 0% 95%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 340 25% 15%;
 
-    --primary: 336 92% 45%;
+    --primary: 340 82% 52%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 0 0% 15%;
-    --secondary-foreground: 0 0% 95%;
+    --secondary: 340 15% 95%;
+    --secondary-foreground: 340 25% 20%;
 
-    --muted: 0 0% 15%;
-    --muted-foreground: 0 0% 62%;
+    --muted: 340 15% 95%;
+    --muted-foreground: 340 10% 45%;
 
-    --accent: 336 92% 45%;
+    --accent: 340 75% 58%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 4 90% 58%;
@@ -36,9 +36,9 @@
     --success: 142 76% 36%;
     --success-foreground: 0 0% 100%;
 
-    --border: 336 92% 45% / 0.2;
-    --input: 0 0% 10%;
-    --ring: 336 92% 45%;
+    --border: 340 30% 88%;
+    --input: 340 20% 96%;
+    --ring: 340 82% 52%;
 
     --radius: 0.625rem;
 
@@ -46,25 +46,25 @@
   }
 
   .dark {
-    --background: 0 0% 6%;
-    --foreground: 0 0% 95%;
+    --background: 0 0% 100%;
+    --foreground: 340 25% 15%;
 
-    --card: 0 0% 10%;
-    --card-foreground: 0 0% 95%;
+    --card: 340 20% 98%;
+    --card-foreground: 340 25% 15%;
 
-    --popover: 0 0% 10%;
-    --popover-foreground: 0 0% 95%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 340 25% 15%;
 
-    --primary: 336 92% 45%;
+    --primary: 340 82% 52%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 0 0% 15%;
-    --secondary-foreground: 0 0% 95%;
+    --secondary: 340 15% 95%;
+    --secondary-foreground: 340 25% 20%;
 
-    --muted: 0 0% 15%;
-    --muted-foreground: 0 0% 62%;
+    --muted: 340 15% 95%;
+    --muted-foreground: 340 10% 45%;
 
-    --accent: 336 92% 45%;
+    --accent: 340 75% 58%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 4 90% 58%;
@@ -73,9 +73,9 @@
     --success: 142 76% 36%;
     --success-foreground: 0 0% 100%;
 
-    --border: 336 92% 45% / 0.2;
-    --input: 0 0% 10%;
-    --ring: 336 92% 45%;
+    --border: 340 30% 88%;
+    --input: 340 20% 96%;
+    --ring: 340 82% 52%;
   }
 }
 
@@ -95,25 +95,32 @@
 
 @layer components {
   .form-section-title {
-    @apply text-primary text-xl font-bold uppercase mb-6 pb-3;
+    @apply text-primary text-base sm:text-lg md:text-xl font-bold uppercase mb-4 sm:mb-6 pb-2 sm:pb-3;
   }
 
   .form-label {
-    @apply text-foreground text-sm font-semibold mb-2 block;
+    @apply text-foreground text-xs sm:text-sm font-semibold mb-1.5 sm:mb-2 block;
   }
 
   .form-input {
-    @apply bg-card/80 text-foreground border border-primary/20 rounded-[10px] px-[18px] py-[14px] text-base font-sans w-full transition-all duration-300 placeholder:text-muted-foreground focus:border-primary focus:ring-[3px] focus:ring-primary/10 focus:outline-none;
+    @apply bg-white text-foreground border border-primary/20 rounded-lg sm:rounded-[10px] px-3 sm:px-4 py-3 sm:py-[14px] text-sm sm:text-base font-sans w-full transition-all duration-300 placeholder:text-muted-foreground focus:border-primary focus:ring-[3px] focus:ring-primary/10 focus:outline-none;
   }
 
   /* Date input calendar icon styling */
   input[type="date"]::-webkit-calendar-picker-indicator {
-    filter: invert(1);
-    width: 24px;
-    height: 24px;
+    filter: none;
+    width: 20px;
+    height: 20px;
     cursor: pointer;
-    opacity: 0.8;
+    opacity: 0.7;
     transition: opacity 0.2s;
+  }
+
+  @media (min-width: 640px) {
+    input[type="date"]::-webkit-calendar-picker-indicator {
+      width: 24px;
+      height: 24px;
+    }
   }
 
   input[type="date"]::-webkit-calendar-picker-indicator:hover {
@@ -125,11 +132,11 @@
   }
 
   .form-error {
-    @apply text-destructive text-[13px] mt-1 flex items-center gap-1;
+    @apply text-destructive text-xs sm:text-[13px] mt-1 flex items-center gap-1;
   }
 
   .char-counter {
-    @apply text-muted-foreground text-xs text-right mt-1;
+    @apply text-muted-foreground text-[10px] sm:text-xs text-right mt-1;
   }
 
   .char-counter-warning {
@@ -182,11 +189,11 @@
 
     0%,
     100% {
-      box-shadow: 0 8px 24px hsl(336 92% 45% / 0.4);
+      box-shadow: 0 8px 24px hsl(340 82% 52% / 0.4);
     }
 
     50% {
-      box-shadow: 0 12px 32px hsl(336 92% 45% / 0.6);
+      box-shadow: 0 12px 32px hsl(340 82% 52% / 0.6);
     }
   }
 
@@ -218,7 +225,7 @@
 
   /* Animated Gradient Background */
   .animated-background {
-    background: linear-gradient(132deg, #de0a67, #591BC5, #212335);
+    background: linear-gradient(132deg, #fce4ec, #f8bbd9, #ffffff, #fce4ec);
     background-size: 400% 400%;
     animation: Gradient 15s ease infinite;
     position: absolute;
@@ -232,14 +239,14 @@
     left: 45vw;
     width: 10px;
     height: 10px;
-    border: solid 1px #D7D4E4;
+    border: solid 1px #e91e8c;
     transform-origin: top left;
     transform: scale(0) rotate(0deg) translate(-50%, -50%);
     animation: cube 12s ease-in forwards infinite;
   }
 
   .cube:nth-child(2n) {
-    border-color: #FFF;
+    border-color: #f48fb1;
   }
 
   .cube:nth-child(2) {

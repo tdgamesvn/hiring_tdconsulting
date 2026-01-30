@@ -8,9 +8,9 @@ export interface CompanyInfo {
     address: string;
     introduce: string;
     website: string;
-    behance: string;
+    threads: string;
     facebook: string;
-    artstation: string;
+    tiktok: string;
     linkedin: string;
 }
 
@@ -23,9 +23,9 @@ interface NocoDBResponse {
         Address: string;
         Introduce: string;
         Website: string;
-        Behance: string;
+        Threads: string;
         Facebook: string;
-        Artstation: string;
+        Tiktok: string;
         LinkedIn: string;
         Linkedin: string;
     }>;
@@ -72,9 +72,9 @@ async function fetchCompanyInfo(): Promise<CompanyInfo | null> {
         address: item.Address || "",
         introduce: item.Introduce || "",
         website: item.Website || "",
-        behance: item.Behance || "",
+        threads: item.Threads || "",
         facebook: item.Facebook || "",
-        artstation: item.Artstation || "",
+        tiktok: item.Tiktok || "",
         linkedin: item.Linkedin || "",
     };
 }
