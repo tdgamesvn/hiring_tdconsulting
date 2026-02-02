@@ -41,58 +41,7 @@ const EXPERIENCE_LEVELS = [
   "8+ years"
 ];
 
-const SOFTWARE_OPTIONS = [
-  "Microsoft Office",
-  "LinkedIn Recruiter",
-  "Slack",
-  "Trello",
-  "Notion",
-  "Misa",
-  "Jira",
-  "GitHub",
-  "HubSpot",
-  "Pipedrive",
-  "Canva",
-  "Figma"
-];
 
-const SKILLS_OPTIONS = [
-  "Interviewing",
-  "Candidate Sourcing",
-  "Salary Negotiation",
-  "Customer Relationship Management (CRM)",
-  "Recruitment Ads",
-  "HR Management",
-  "Recruitment Consulting"
-];
-
-const EXPERTISE_OPTIONS = [
-  "IT Recruitment",
-  "Mass Recruitment",
-  "Headhunting",
-  "C&B (Compensation & Benefits)",
-  "General Accountant",
-  "Tax Accountant",
-  "Business Development",
-  "Marketing & Communications",
-  "Software Development",
-  "Graphic Design",
-  "Administrative"
-];
-
-const LANGUAGES = [
-  "English",
-  "Japanese",
-  "Chinese",
-  "Korean"
-];
-
-const LANGUAGE_LEVELS = [
-  "Basic",
-  "Intermediate",
-  "Fluent",
-  "Native"
-];
 
 const SALARY_TYPES = [
   "Gross",
@@ -132,16 +81,10 @@ const fullTimeFormSchema = z.object({
   fullName: z.string().min(2, "Please enter your full name"),
   email: z.string().email("Please enter a valid email address"),
   phone: z.string().min(10, "Please enter a valid phone number"),
-  linkedinUrl: z.string().url("Please provide your LinkedIn profile URL"),
+  linkedinUrl: z.string().url("Please provide a valid URL").optional().or(z.literal("")),
   position: z.string().min(1, "Please select a position"),
   employmentType: z.string().min(1, "Please select employment type"),
   experience: z.string().min(1, "Please select your experience level"),
-  selectedSkills: z.array(z.string()).min(1, "Please select at least one skill"),
-  softwareProficiency: z.array(z.string()).min(1, "Please select at least one software"),
-  languages: z.array(z.object({
-    language: z.string(),
-    level: z.string()
-  })).optional(),
   howDidYouHear: z.string().optional(),
   availableStartDate: z.string().optional(),
   expectedSalary: z.string().optional(),
@@ -195,9 +138,6 @@ export default function ApplicationForm({ onSuccess, onJobSelect }: ApplicationF
   const fullTimeForm = useForm<FullTimeFormData>({
     resolver: zodResolver(fullTimeFormSchema),
     defaultValues: {
-      softwareProficiency: [],
-      selectedSkills: [],
-      languages: [],
     }
   });
 
@@ -310,14 +250,7 @@ export default function ApplicationForm({ onSuccess, onJobSelect }: ApplicationF
     }
   }, []);
 
-  const toggleSoftware = (software: string) => {
-    const current = fullTimeForm.watch("softwareProficiency") || [];
-    if (current.includes(software)) {
-      fullTimeForm.setValue("softwareProficiency", current.filter(s => s !== software));
-    } else {
-      fullTimeForm.setValue("softwareProficiency", [...current, software]);
-    }
-  };
+
 
   // Portfolio link management for Full-time form
   const addFullTimePortfolioLink = () => {
@@ -368,7 +301,7 @@ export default function ApplicationForm({ onSuccess, onJobSelect }: ApplicationF
         .map(link => link.url)
         .filter(url => url.trim() !== "");
 
-      const allPortfolioUrls = [data.linkedinUrl, ...additionalLinks];
+      const allPortfolioUrls = [data.linkedinUrl, ...additionalLinks].filter(url => url && url.trim() !== "");
 
       // Create summary text with Discord-friendly formatting
       const summaryParts = [
@@ -384,9 +317,6 @@ export default function ApplicationForm({ onSuccess, onJobSelect }: ApplicationF
         `**Position:** ${data.position}`,
         `**Employment Type:** ${data.employmentType}`,
         `**Experience:** ${data.experience}`,
-        `**Skills:** ${data.selectedSkills?.join(", ") || "N/A"}`,
-        `**Software Proficiency:** ${data.softwareProficiency?.join(", ") || "N/A"}`,
-        data.languages && data.languages.length > 0 ? `**Languages:** ${data.languages.map(l => `${l.language} (${l.level})`).join(", ")}` : null,
         ``,
         `### 📝 Additional Information`,
         data.howDidYouHear ? `**How did you hear about TD CONSULTING:** ${data.howDidYouHear}` : null,
@@ -509,14 +439,12 @@ export default function ApplicationForm({ onSuccess, onJobSelect }: ApplicationF
       fullTimeForm.watch("fullName"),
       fullTimeForm.watch("email"),
       fullTimeForm.watch("phone"),
-      fullTimeForm.watch("linkedinUrl"),
+      // fullTimeForm.watch("linkedinUrl"), // Optional now
       fullTimeForm.watch("position"),
       fullTimeForm.watch("employmentType"),
-      fullTimeForm.watch("experience"),
-      fullTimeForm.watch("selectedSkills")?.length > 0,
-      fullTimeForm.watch("softwareProficiency")?.length > 0
+      fullTimeForm.watch("experience")
     ].filter(Boolean).length;
-    return (completedFields / 9) * 100;
+    return (completedFields / 6) * 100;
   };
 
   // Progress calculation for freelancer form
@@ -542,7 +470,6 @@ export default function ApplicationForm({ onSuccess, onJobSelect }: ApplicationF
         progress={fullTimeProgress()}
         salaryDisplay={salaryDisplay}
         handleSalaryChange={handleSalaryChange}
-        toggleSoftware={toggleSoftware}
         resumeFile={resumeFile}
         setResumeFile={setResumeFile}
         fileInputRef={fileInputRef}
@@ -571,7 +498,6 @@ interface FullTimeFormProps {
   progress: number;
   salaryDisplay: string;
   handleSalaryChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  toggleSoftware: (software: string) => void;
   resumeFile: File | null;
   setResumeFile: (file: File | null) => void;
   fileInputRef: React.RefObject<HTMLInputElement>;
@@ -596,7 +522,6 @@ function FullTimeForm({
   progress,
   salaryDisplay,
   handleSalaryChange,
-  toggleSoftware,
   resumeFile,
   setResumeFile,
   fileInputRef,
@@ -615,8 +540,6 @@ function FullTimeForm({
 }: FullTimeFormProps) {
   const { register, handleSubmit, watch, formState: { errors } } = form;
   const additionalMessageValue = watch("additionalMessage") || "";
-  const softwareProficiency = watch("softwareProficiency");
-  const selectedSkills = watch("selectedSkills");
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -685,12 +608,12 @@ function FullTimeForm({
           {/* LinkedIn Profile */}
           <div>
             <label className="form-label">
-              LinkedIn Profile URL <span className="text-primary">*</span>
+              Profile URL
             </label>
             <input
               {...register("linkedinUrl")}
               type="url"
-              placeholder="https://linkedin.com/in/yourprofile"
+              placeholder="Please share so we can understand you better"
               className={`form-input ${errors.linkedinUrl ? "form-input-error animate-shake" : ""}`}
             />
             {errors.linkedinUrl && (
@@ -818,121 +741,7 @@ function FullTimeForm({
             )}
           </div>
 
-          {/* Skills */}
-          <div>
-            <label className="form-label">
-              Skills <span className="text-primary">*</span>
-            </label>
-            <p className="text-muted-foreground text-sm mb-3">Select your skills</p>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-              {SKILLS_OPTIONS.map(skill => (
-                <button
-                  key={skill}
-                  type="button"
-                  onClick={() => {
-                    const current = selectedSkills || [];
-                    if (current.includes(skill)) {
-                      form.setValue("selectedSkills", current.filter((s: string) => s !== skill));
-                    } else {
-                      form.setValue("selectedSkills", [...current, skill]);
-                    }
-                  }}
-                  className={`p-3 rounded-lg border text-sm font-medium transition-all duration-200 ${selectedSkills?.includes(skill)
-                    ? "bg-primary/20 border-primary text-primary shadow-sm"
-                    : "bg-muted/50 border-primary/20 text-muted-foreground hover:border-primary/40 hover:text-foreground"
-                    }`}
-                >
-                  {skill}
-                </button>
-              ))}
-            </div>
-            {errors.selectedSkills && (
-              <p className="form-error mt-2">
-                <AlertCircle className="w-4 h-4" />
-                {errors.selectedSkills.message}
-              </p>
-            )}
-          </div>
 
-          {/* Software Proficiency */}
-          <div>
-            <label className="form-label">
-              Software Proficiency <span className="text-primary">*</span>
-            </label>
-            <p className="text-muted-foreground text-sm mb-3">Select all that apply</p>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-              {SOFTWARE_OPTIONS.map(software => (
-                <button
-                  key={software}
-                  type="button"
-                  onClick={() => toggleSoftware(software)}
-                  className={`px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 border ${softwareProficiency?.includes(software)
-                    ? "bg-primary text-primary-foreground border-primary"
-                    : "bg-card/50 text-foreground border-primary/20 hover:border-primary/50"
-                    }`}
-                >
-                  {software}
-                </button>
-              ))}
-            </div>
-            {errors.softwareProficiency && (
-              <p className="form-error mt-2">
-                <AlertCircle className="w-4 h-4" />
-                {errors.softwareProficiency.message}
-              </p>
-            )}
-          </div>
-
-          {/* Languages */}
-          <div>
-            <label className="form-label">
-              Languages
-            </label>
-            <p className="text-muted-foreground text-sm mb-3">Select your languages and proficiency level</p>
-            <div className="space-y-3">
-              {LANGUAGES.map(lang => {
-                const currentLanguages = form.watch("languages") || [];
-                const langEntry = currentLanguages.find((l: { language: string; level: string }) => l.language === lang);
-                const isSelected = !!langEntry;
-
-                return (
-                  <div key={lang} className="flex items-center gap-3">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        if (isSelected) {
-                          form.setValue("languages", currentLanguages.filter((l: { language: string }) => l.language !== lang));
-                        } else {
-                          form.setValue("languages", [...currentLanguages, { language: lang, level: "Basic" }]);
-                        }
-                      }}
-                      className={`flex-1 p-3 rounded-lg border text-sm font-medium transition-all duration-200 text-left ${isSelected
-                        ? "bg-primary/20 border-primary text-primary"
-                        : "bg-muted/50 border-primary/20 text-muted-foreground hover:border-primary/40"
-                        }`}
-                    >
-                      {lang}
-                    </button>
-                    {isSelected && (
-                      <select
-                        value={langEntry?.level || "Basic"}
-                        onChange={(e) => {
-                          form.setValue("languages", currentLanguages.map((l: { language: string; level: string }) =>
-                            l.language === lang ? { ...l, level: e.target.value } : l
-                          ));
-                        }}
-                        className="form-input w-auto min-w-[120px] text-sm appearance-none cursor-pointer"
-                      >
-                        {LANGUAGE_LEVELS.map(level => (
-                          <option key={level} value={level}>{level}</option>
-                        ))}
-                      </select>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          </div>
         </div>
       </section>
 
@@ -1002,7 +811,7 @@ function FullTimeForm({
 
           {/* Additional Message */}
           <div>
-            <label className="form-label">Additional Message</label>
+            <label className="form-label">What makes you a good fit for this job?</label>
             <textarea
               {...register("additionalMessage")}
               placeholder="Share your most notable achievement (e.g., number of successful deals, team size you've managed, or your proudest dev/design project)..."
@@ -1338,7 +1147,7 @@ function FreelancerForm({
 
           {/* Additional Message */}
           <div>
-            <label className="form-label">Additional Message</label>
+            <label className="form-label">What makes you a good fit for this job?</label>
             <textarea
               {...register("additionalMessage")}
               placeholder="Tell us about your experience, availability, and why you'd like to work with TD CONSULTING..."
